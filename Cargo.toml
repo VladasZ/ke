@@ -2,10 +2,16 @@
 authors = ["Vladas Zakrevskis <146100@gmail.com>"]
 edition = "2021"
 name = "ke"
-version = "0.1.0"
+version = "0.1.1"
+description = "Half make"
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/VladasZ/ke"
+repository = "https://github.com/VladasZ/ke"
 
 [[bin]]
 name = "ke"
 
 
 [dependencies]
+anyhow = "1.0.75"
+yaml-rust = "0.4.5"
