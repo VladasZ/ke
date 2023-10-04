@@ -1,0 +1,11 @@
+[package]
+authors = ["Vladas Zakrevskis <146100@gmail.com>"]
+edition = "2021"
+name = "ke"
+version = "0.1.0"
+
+[[bin]]
+name = "ke"
+
+
+[dependencies]
