@@ -17,6 +17,8 @@ fn run_command(yaml: Yaml) -> Result<()> {
         bail!("Command is not a string")
     };
 
+    println!("{command}");
+
     Command::new(RUN)
         .arg(C)
         .arg(command)
