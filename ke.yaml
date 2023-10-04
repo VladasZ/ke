@@ -3,3 +3,6 @@ hello:
 
 bye:
   echo bye
+
+path:
+  .\scripts\hello.py

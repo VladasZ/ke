@@ -9,7 +9,7 @@ pub use yaml_rust::{Yaml, YamlLoader};
 
 const WIN: bool = cfg!(target_os = "windows");
 
-const RUN: &str = if WIN { "cmd" } else { "bash" };
+const RUN: &str = if WIN { "powershell" } else { "bash" };
 const C: &str = if WIN { "/C" } else { "-c" };
 
 fn run_command(yaml: Yaml) -> Result<()> {
@@ -29,20 +29,17 @@ fn run_command(yaml: Yaml) -> Result<()> {
     Ok(())
 }
 
-fn main() -> Result<()> {
-    let argument = args().nth(1).ok_or_else(|| anyhow!("No argument"))?;
-
-    let string = read_to_string("ke.yaml")?;
-
-    let yaml = YamlLoader::load_from_str(&string)?;
-
-    let yaml = yaml.into_iter().next().ok_or_else(|| anyhow!("No doc in yaml"))?;
+fn run(yaml: &str, argument: &str) -> Result<()> {
+    let yaml = YamlLoader::load_from_str(yaml)?
+        .into_iter()
+        .next()
+        .ok_or_else(|| anyhow!("No doc in yaml"))?;
 
     let Yaml::Hash(hash) = yaml else {
         bail!("Invalid yaml format")
     };
 
-    for (command, val) in hash.into_iter() {
+    for (command, val) in hash {
         let command = command.into_string().ok_or_else(|| anyhow!("Command is not a string"))?;
 
         if command == argument {
@@ -51,4 +48,10 @@ fn main() -> Result<()> {
     }
 
     bail!("Command '{argument}' not found")
+}
+
+fn main() -> Result<()> {
+    let argument = args().nth(1).ok_or_else(|| anyhow!("No argument"))?;
+    let yaml = read_to_string("ke.yaml")?;
+    run(&yaml, &argument)
 }
