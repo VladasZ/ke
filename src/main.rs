@@ -51,7 +51,12 @@ fn run(yaml: &str, argument: &str) -> Result<()> {
 }
 
 fn main() -> Result<()> {
-    let argument = args().nth(1).ok_or_else(|| anyhow!("No argument"))?;
     let yaml = read_to_string("ke.yaml")?;
+
+    let Some(argument) = args().nth(1) else {
+        println!("{yaml}");
+        return Ok(());
+    };
+
     run(&yaml, &argument)
 }

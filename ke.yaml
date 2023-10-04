@@ -5,4 +5,4 @@ bye:
   echo bye
 
 path:
-  .\scripts\hello.py
+  ./scripts/hello.py
