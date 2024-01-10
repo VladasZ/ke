@@ -1,0 +1,17 @@
+[package]
+authors = ["Vladas Zakrevskis <146100@gmail.com>"]
+edition = "2021"
+name = "ke"
+version = "0.1.4"
+description = "Half make"
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/VladasZ/ke"
+repository = "https://github.com/VladasZ/ke"
+
+[[bin]]
+name = "ke"
+
+
+[dependencies]
+anyhow = { workspace = true }
+yaml-rust = { workspace = true }

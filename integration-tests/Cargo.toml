@@ -1,0 +1,13 @@
+[package]
+authors = ["Vladas Zakrevskis <146100@gmail.com>"]
+edition = "2021"
+name = "integration-tests"
+version = "0.1.0"
+
+[lib]
+name = "integration_tests"
+
+
+[dependencies]
+anyhow = { workspace = true }
+
