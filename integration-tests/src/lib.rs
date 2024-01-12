@@ -1,3 +1,5 @@
+#![cfg(test)]
+
 mod utils;
 
 use anyhow::Result;
@@ -5,12 +7,12 @@ use anyhow::Result;
 use crate::utils::{build_cli, call_cli};
 
 #[test]
-fn test() -> Result<()> {
+fn simple_commands() -> Result<()> {
     build_cli()?;
 
-    call_cli("a")?;
-
-    dbg!("A");
+    assert_eq!(call_cli("hello")?.0, "hello\n");
+    assert_eq!(call_cli("bye")?.0, "bye\n");
+    assert_eq!(call_cli("path")?.0, "hello\n");
 
     Ok(())
 }
@@ -19,9 +21,7 @@ fn test() -> Result<()> {
 fn wrong_command() -> Result<()> {
     build_cli()?;
 
-    let (_, err) = call_cli("a")?;
-
-    assert!(err.starts_with("Error: Command 'a' not found"));
+    assert!(call_cli("a")?.1.starts_with("Error: Command 'a' not found"));
 
     Ok(())
 }
