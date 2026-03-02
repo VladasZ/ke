@@ -1,7 +1,4 @@
-use std::{
-    io::{self, Write},
-    process::{Command, Stdio},
-};
+use std::process::{Command, Stdio};
 
 use anyhow::{bail, Result};
 
@@ -10,18 +7,15 @@ const SHELL: &str = if WIN { "powershell" } else { "bash" };
 const SHELL_FLAG: &str = if WIN { "/C" } else { "-c" };
 
 pub fn run_command(command_str: &str) -> Result<()> {
-    let output = Command::new(SHELL)
+    let status = Command::new(SHELL)
         .arg(SHELL_FLAG)
         .arg(command_str)
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .output()?;
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .status()?;
 
-    io::stdout().write_all(&output.stdout)?;
-    io::stderr().write_all(&output.stderr)?;
-
-    if !output.status.success() {
-        bail!("Command exited with status: {}", output.status);
+    if !status.success() {
+        bail!("Command exited with status: {status}");
     }
 
     Ok(())
