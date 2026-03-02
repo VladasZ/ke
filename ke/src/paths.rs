@@ -24,6 +24,15 @@ pub fn expand_tilde(path: &str) -> Result<String> {
     }
 }
 
+pub fn tildify(path: &str) -> Result<String> {
+    let home = home_dir()?.to_string_lossy().to_string();
+    if path.starts_with(&home) {
+        Ok(format!("~/{}", path[home.len()..].trim_start_matches('/')))
+    } else {
+        Ok(path.to_string())
+    }
+}
+
 pub fn default_config_path() -> Result<PathBuf> {
     Ok(home_dir()?.join(".ke").join("commands.yaml"))
 }

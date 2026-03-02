@@ -7,4 +7,6 @@ members = ["integration-tests", "ke"]
 
 [workspace.dependencies]
 anyhow = "1.0"
+clap = { version = "4.5.60", features = ["derive"] }
+open = "5.3.3"
 yaml-rust = "0.4"

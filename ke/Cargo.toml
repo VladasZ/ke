@@ -6,7 +6,7 @@ homepage = "https://github.com/VladasZ/ke"
 license = "MIT OR Apache-2.0"
 name = "ke"
 repository = "https://github.com/VladasZ/ke"
-version = "0.2.0"
+version = "0.5.0"
 
 [[bin]]
 name = "ke"
@@ -14,5 +14,6 @@ name = "ke"
 
 [dependencies]
 anyhow = { workspace = true }
-clap = { version = "4.5.60", features = ["derive"] }
+clap = { workspace = true }
+open = { workspace = true }
 yaml-rust = { workspace = true }

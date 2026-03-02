@@ -34,7 +34,7 @@ pub fn build_cli() -> Result<()> {
         .output()?;
 
     if !output.status.success() {
-        bail!("Failed to build contract. Output: {output:?}");
+        bail!("Failed to build. Output: {output:?}");
     }
 
     *ready = true;
@@ -42,21 +42,21 @@ pub fn build_cli() -> Result<()> {
     Ok(())
 }
 
-pub fn call_cli_with_config(arg: &str, folder: &str, config: &str) -> Result<(String, String)> {
+pub fn call_cli(args: &[&str], folder: &str, config: &str) -> Result<(String, String)> {
     let root = root_dir()?;
     let binary = format!("{root}/target/debug/ke");
 
     let output = Command::new(&binary)
         .arg("--config")
         .arg(config)
-        .arg(arg)
+        .args(args)
         .current_dir(folder)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .output()?;
 
     Ok((
-        String::from_utf8_lossy(output.stdout.as_slice()).to_string(),
-        String::from_utf8_lossy(output.stderr.as_slice()).to_string(),
+        String::from_utf8_lossy(&output.stdout).to_string(),
+        String::from_utf8_lossy(&output.stderr).to_string(),
     ))
 }
