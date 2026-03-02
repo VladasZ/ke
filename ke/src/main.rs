@@ -1,4 +1,4 @@
-use std::{fs, path::PathBuf};
+use std::{fs, path::PathBuf, process};
 
 use anyhow::{bail, Result};
 use clap::Parser;
@@ -38,7 +38,7 @@ fn ensure_default_config(config: &PathBuf) -> Result<()> {
     Ok(())
 }
 
-fn main() -> Result<()> {
+fn run() -> Result<()> {
     let cli = Cli::parse();
 
     let is_default_config = cli.config.is_none();
@@ -92,4 +92,11 @@ fn main() -> Result<()> {
     let command_str = yaml::find_command(&yaml_str, &folder, &command)?;
 
     runner::run_command(&command_str)
+}
+
+fn main() {
+    if let Err(e) = run() {
+        eprintln!("{e}");
+        process::exit(1);
+    }
 }
