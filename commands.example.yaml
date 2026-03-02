@@ -1,3 +1,7 @@
+- global:
+    hi: echo Hello world
+    date: date
+
 - folder: ~/dev/apps/ke
   commands:
     build: cargo build

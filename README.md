@@ -2,8 +2,6 @@
 
 Half make. Per-project command shortcuts stored in a single global file.
 
-Each entry is tied to a folder — `ke` checks your current directory and only runs commands defined for it.
-
 ### Setup
 
 `cd` into your project and add commands:
@@ -13,7 +11,7 @@ ke --add build cargo build
 ke --add test cargo test --all
 ```
 
-This creates `~/.ke/commands.yaml` automatically. Then just run:
+This creates `~/.ke/commands.yaml` automatically. Run with:
 
 ```sh
 ke build
@@ -21,13 +19,24 @@ ke build
 
 Commands are scoped to the folder they were added from — running `ke` in any other folder will error.
 
-Or open the config directly in your default editor:
+### Global commands
+
+Global commands work from any folder:
 
 ```sh
-ke --edit
+ke --add-global hi echo Hello
 ```
 
-For multiline commands, edit `~/.ke/commands.yaml` directly:
+```yaml
+- global:
+    hi: echo Hello
+```
+
+Folder commands take priority over global ones if the same name exists in both.
+
+### Multiline commands
+
+Edit `~/.ke/commands.yaml` directly:
 
 ```yaml
 - folder: ~/dev/myproject
@@ -35,6 +44,12 @@ For multiline commands, edit `~/.ke/commands.yaml` directly:
     check: |
       cargo clippy
       cargo test
+```
+
+### Edit config
+
+```sh
+ke --edit
 ```
 
 ### Custom config

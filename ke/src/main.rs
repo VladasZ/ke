@@ -3,7 +3,16 @@ use std::{fs, path::PathBuf, process};
 use anyhow::{bail, Result};
 use clap::Parser;
 
-const DEFAULT_CONFIG: &str = "- folder: ~/\n  commands:\n    hello: echo Hello world\n";
+const DEFAULT_CONFIG: &str = "
+- global:
+    hello: echo Hello world
+
+- folder: ~/
+  commands:
+    greet: |
+      echo Hello
+      echo World
+";
 
 mod paths;
 mod runner;
@@ -17,6 +26,9 @@ struct Cli {
 
     #[arg(long, value_names = ["NAME", "CMD"], num_args = 2..)]
     add: Option<Vec<String>>,
+
+    #[arg(long = "add-global", value_names = ["NAME", "CMD"], num_args = 2..)]
+    add_global: Option<Vec<String>>,
 
     #[arg(long)]
     edit: bool,
@@ -57,6 +69,28 @@ fn run() -> Result<()> {
             fs::write(&config, "")?;
         }
         open::that(&config)?;
+        return Ok(());
+    }
+
+    if let Some(args) = cli.add_global {
+        let (name, cmd) = args.split_first().unwrap();
+        let command_str = cmd.join(" ");
+
+        let yaml_str = if config.exists() {
+            fs::read_to_string(&config)
+                .map_err(|e| anyhow::anyhow!("Could not read {}: {e}", config.display()))?
+        } else {
+            String::new()
+        };
+
+        let updated = yaml::add_global_command(&yaml_str, name, &command_str)?;
+
+        if let Some(parent) = config.parent() {
+            fs::create_dir_all(parent)?;
+        }
+
+        fs::write(&config, updated)?;
+        println!("Added global command '{name}'");
         return Ok(());
     }
 
