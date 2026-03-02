@@ -4,24 +4,18 @@ mod utils;
 
 use anyhow::Result;
 
-use crate::utils::{build_cli, call_cli};
+use crate::utils::{build_cli, call_cli_with_config, root_dir};
 
 #[test]
-fn simple_commands() -> Result<()> {
+fn hello_world() -> Result<()> {
     build_cli()?;
 
-    assert_eq!(call_cli("hello")?.0, "hello\n");
-    assert_eq!(call_cli("bye")?.0, "bye\n");
-    assert_eq!(call_cli("path")?.0, "hello\n");
+    let root = root_dir()?;
+    let config = format!("{root}/commands.example.yaml");
 
-    Ok(())
-}
+    let (stdout, _stderr) = call_cli_with_config("hello", &root, &config)?;
 
-#[test]
-fn wrong_command() -> Result<()> {
-    build_cli()?;
-
-    assert!(call_cli("a")?.1.starts_with("Error: Command 'a' not found"));
+    assert!(stdout.to_lowercase().contains("hello world"));
 
     Ok(())
 }

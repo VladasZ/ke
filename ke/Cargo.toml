@@ -1,12 +1,12 @@
 [package]
 authors = ["Vladas Zakrevskis <146100@gmail.com>"]
-edition = "2021"
-name = "ke"
-version = "0.1.4"
 description = "Half make"
-license = "MIT OR Apache-2.0"
+edition = "2021"
 homepage = "https://github.com/VladasZ/ke"
+license = "MIT OR Apache-2.0"
+name = "ke"
 repository = "https://github.com/VladasZ/ke"
+version = "0.2.0"
 
 [[bin]]
 name = "ke"
@@ -14,4 +14,5 @@ name = "ke"
 
 [dependencies]
 anyhow = { workspace = true }
+clap = { version = "4.5.60", features = ["derive"] }
 yaml-rust = { workspace = true }

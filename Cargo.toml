@@ -3,8 +3,8 @@
 resolver = "2"
 
 default-members = ["ke"]
-members = ["ke", "integration-tests"]
+members = ["integration-tests", "ke"]
 
 [workspace.dependencies]
-anyhow = "1.0.79"
-yaml-rust = "0.4.5"
+anyhow = "1.0"
+yaml-rust = "0.4"
