@@ -8,10 +8,9 @@ const DEFAULT_CONFIG: &str = "
     hello: echo Hello world
 
 - folder: ~/
-  commands:
-    greet: |
-      echo Hello
-      echo World
+  greet: |
+    echo Hello
+    echo World
 ";
 
 mod paths;
@@ -32,6 +31,9 @@ struct Cli {
 
     #[arg(short, long)]
     edit: bool,
+
+    #[arg(short, long)]
+    list: bool,
 
     command: Option<String>,
 }
@@ -60,6 +62,26 @@ fn run() -> Result<()> {
         ensure_default_config(&config)?;
     }
     let folder = paths::current_dir()?;
+
+    if cli.list {
+        let yaml_str = fs::read_to_string(&config)
+            .map_err(|e| anyhow::anyhow!("Could not read {}: {e}", config.display()))?;
+        let list = yaml::list_commands(&yaml_str, &folder)?;
+        if !list.global.is_empty() {
+            println!("Global commands:");
+            for name in &list.global {
+                println!("  {name}");
+            }
+        }
+        if !list.folder.is_empty() {
+            println!("Folder commands:");
+            for name in &list.folder {
+                println!("  {name}");
+            }
+        }
+
+        return Ok(());
+    }
 
     if cli.edit {
         if let Some(parent) = config.parent() {

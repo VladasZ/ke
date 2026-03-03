@@ -6,7 +6,7 @@ homepage = "https://github.com/VladasZ/ke"
 license = "MIT OR Apache-2.0"
 name = "ke"
 repository = "https://github.com/VladasZ/ke"
-version = "0.9.0"
+version = "0.11.0"
 
 [[bin]]
 name = "ke"
@@ -16,4 +16,5 @@ name = "ke"
 anyhow = { workspace = true }
 clap = { workspace = true }
 open = { workspace = true }
-yaml-rust = { workspace = true }
+serde = { workspace = true }
+serde_yaml_ng = { workspace = true }
