@@ -46,8 +46,9 @@ impl Entry {
 }
 
 pub struct CommandList {
-    pub folder: Vec<String>,
-    pub global: Vec<String>,
+    // (name, command)
+    pub folder: Vec<(String, String)>,
+    pub global: Vec<(String, String)>,
 }
 
 fn load(yaml_str: &str) -> Result<Vec<Entry>> {
@@ -82,13 +83,13 @@ pub fn list_commands(yaml_str: &str, folder: &str) -> Result<CommandList> {
     let folder_cmds = entries
         .iter()
         .find(|e| e.matches_folder(folder))
-        .map(|e| e.commands().keys().cloned().collect())
+        .map(|e| e.commands().iter().map(|(name, cmd)| (name.clone(), cmd.clone())).collect())
         .unwrap_or_default();
 
     let global_cmds = entries
         .iter()
         .find(|e| e.is_global())
-        .map(|e| e.commands().keys().cloned().collect())
+        .map(|e| e.commands().iter().map(|(name, cmd)| (name.clone(), cmd.clone())).collect())
         .unwrap_or_default();
 
     Ok(CommandList {

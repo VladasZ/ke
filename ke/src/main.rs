@@ -69,14 +69,14 @@ fn run() -> Result<()> {
         let list = yaml::list_commands(&yaml_str, &folder)?;
         if !list.global.is_empty() {
             println!("Global commands:");
-            for name in &list.global {
-                println!("  {name}");
+            for (name, cmd) in &list.global {
+                println!("  {name}: {cmd}");
             }
         }
         if !list.folder.is_empty() {
             println!("Folder commands:");
-            for name in &list.folder {
-                println!("  {name}");
+            for (name, cmd) in &list.folder {
+                println!("  {name}: {cmd}");
             }
         }
 
