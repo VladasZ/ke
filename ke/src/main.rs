@@ -24,13 +24,13 @@ struct Cli {
     #[arg(short, long, value_name = "FILE")]
     config: Option<PathBuf>,
 
-    #[arg(long, value_names = ["NAME", "CMD"], num_args = 2..)]
+    #[arg(short, long, value_names = ["NAME", "CMD"], num_args = 2..)]
     add: Option<Vec<String>>,
 
     #[arg(long = "add-global", value_names = ["NAME", "CMD"], num_args = 2..)]
     add_global: Option<Vec<String>>,
 
-    #[arg(long)]
+    #[arg(short, long)]
     edit: bool,
 
     command: Option<String>,
